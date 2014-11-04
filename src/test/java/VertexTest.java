@@ -16,7 +16,6 @@ public class VertexTest extends TestCase {
         HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
         Vertex v2 = new Vertex(2);
         this.vertex = new Vertex(1);
-        v2.getNeighbors().put(1, this.vertex);
         neighbors.put(v2.getNumber(), v2);
         this.vertex.setNeighbors(neighbors);
     }
@@ -55,6 +54,11 @@ public class VertexTest extends TestCase {
         assertTrue(this.vertex.getNeighbors().containsKey(3));
         assertEquals(1, this.vertex.getNeighbors().size());
         assertFalse(this.vertex.getNeighbors() == neighbors);
+    }
+
+    public void testIsComplete() {
+        assertTrue(this.vertex.isComplete());
+        assertFalse(this.vertex.getNeighbors().get(2).isComplete());
     }
 
     public void testRegisterNeighbor() throws Exception {

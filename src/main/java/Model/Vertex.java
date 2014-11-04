@@ -18,20 +18,20 @@ public class Vertex {
     }
 
     private int number;
-    private Color color;
+    private Color color = Color.NONE;
     private HashMap<Integer, Vertex> neighbors;
+    private boolean complete = false;
 
     public Vertex(int number) {
         super();
         this.number = number;
-        this.color = Color.NONE;
         this.neighbors = new HashMap<Integer, Vertex>();
     }
 
     public Vertex(int number, HashMap<Integer, Vertex> neighbors) {
         super();
         this.number = number;
-        this.color = Color.NONE;
+        this.complete = true;
         if(neighbors == null) {
             this.neighbors = new HashMap<Integer, Vertex>();
         }
@@ -86,6 +86,23 @@ public class Vertex {
      */
     public void setNeighbors(HashMap<Integer, Vertex> neighbors) {
         this.neighbors = new HashMap<Integer, Vertex>(neighbors);
+        this.complete = true;
+    }
+
+    /**
+     *
+     * @return Return if the vertex is completely build
+     */
+    public boolean isComplete() {
+        return complete;
+    }
+
+    /**
+     *
+     * @param complete Replace the current complete status by this one
+     */
+    private void setComplete(boolean complete) {
+        this.complete = complete;
     }
 
 
