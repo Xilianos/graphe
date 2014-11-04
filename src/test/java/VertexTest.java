@@ -27,34 +27,34 @@ public class VertexTest extends TestCase {
     }
 
     public void testGetNumber() throws Exception {
-        assertEquals(1, vertex.getNumber());
+        assertEquals(1, this.vertex.getNumber());
     }
 
     public void testGetColor() throws Exception {
-        assertEquals(Vertex.Color.NONE, vertex.getColor());
+        assertEquals(Vertex.Color.NONE, this.vertex.getColor());
     }
 
     public void testSetColor() throws Exception {
         vertex.setColor(Vertex.Color.BLUE);
-        assertEquals(Vertex.Color.BLUE, vertex.getColor());
+        assertEquals(Vertex.Color.BLUE, this.vertex.getColor());
     }
 
     public void testGetNeighbors() throws Exception {
-        assertNotNull(vertex.getNeighbors());
-        assertTrue(vertex.getNeighbors().containsKey(2));
-        assertEquals(1, vertex.getNeighbors().size());
+        assertNotNull(this.vertex.getNeighbors());
+        assertTrue(this.vertex.getNeighbors().containsKey(2));
+        assertEquals(1, this.vertex.getNeighbors().size());
     }
 
     public void testSetNeighbors() throws Exception {
         HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
         Vertex v3 = new Vertex(3);
         neighbors.put(v3.getNumber(), v3);
-        vertex.setNeighbors(neighbors);
+        this.vertex.setNeighbors(neighbors);
 
-        assertNotNull(vertex.getNeighbors());
-        assertTrue(vertex.getNeighbors().containsKey(3));
-        assertEquals(1, vertex.getNeighbors().size());
-        assertFalse(vertex.getNeighbors() == neighbors);
+        assertNotNull(this.vertex.getNeighbors());
+        assertTrue(this.vertex.getNeighbors().containsKey(3));
+        assertEquals(1, this.vertex.getNeighbors().size());
+        assertFalse(this.vertex.getNeighbors() == neighbors);
     }
 
     public void testRegisterNeighbor() throws Exception {
