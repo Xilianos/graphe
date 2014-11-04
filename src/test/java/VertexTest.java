@@ -1,7 +1,7 @@
 import Model.Vertex;
 import junit.framework.TestCase;
 
-import java.util.HashSet;
+import java.util.HashMap;
 
 public class VertexTest extends TestCase {
 
@@ -13,24 +13,21 @@ public class VertexTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        HashSet<Integer> neighbors = new HashSet<Integer>();
-        neighbors.add(2);
-        neighbors.add(3);
-        this.vertex = new Vertex(1, neighbors);
+        HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
+        Vertex v2 = new Vertex(2);
+        this.vertex = new Vertex(1);
+        v2.getNeighbors().put(1, this.vertex);
+        neighbors.put(v2.getNumber(), v2);
+        this.vertex.setNeighbors(neighbors);
     }
 
     public void tearDown() throws Exception {
         super.tearDown();
-        vertex = null;
+        this.vertex = null;
     }
 
     public void testGetNumber() throws Exception {
         assertEquals(1, vertex.getNumber());
-    }
-
-    public void testSetNumber() throws Exception {
-        vertex.setNumber(4);
-        assertEquals(4, vertex.getNumber());
     }
 
     public void testGetColor() throws Exception {
@@ -44,23 +41,24 @@ public class VertexTest extends TestCase {
 
     public void testGetNeighbors() throws Exception {
         assertNotNull(vertex.getNeighbors());
-        assertTrue(vertex.getNeighbors().contains(2));
-        assertTrue(vertex.getNeighbors().contains(3));
-        assertEquals(2, vertex.getNeighbors().size());
+        assertTrue(vertex.getNeighbors().containsKey(2));
+        assertEquals(1, vertex.getNeighbors().size());
     }
 
     public void testSetNeighbors() throws Exception {
-        HashSet<Integer> neighbors = new HashSet<Integer>();
-        neighbors.add(4);
-        neighbors.add(5);
-        neighbors.add(6);
+        HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
+        Vertex v3 = new Vertex(3);
+        neighbors.put(v3.getNumber(), v3);
         vertex.setNeighbors(neighbors);
 
         assertNotNull(vertex.getNeighbors());
-        assertTrue(vertex.getNeighbors().contains(4));
-        assertTrue(vertex.getNeighbors().contains(5));
-        assertTrue(vertex.getNeighbors().contains(6));
-        assertEquals(3, vertex.getNeighbors().size());
+        assertTrue(vertex.getNeighbors().containsKey(3));
+        assertEquals(1, vertex.getNeighbors().size());
         assertFalse(vertex.getNeighbors() == neighbors);
+    }
+
+    public void testRegisterNeighbor() throws Exception {
+        assertTrue(this.vertex.registerNeighbor(new Vertex(3)));
+        assertFalse(this.vertex.registerNeighbor(new Vertex(2)));
     }
 }
