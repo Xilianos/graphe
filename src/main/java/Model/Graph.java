@@ -54,7 +54,7 @@ public class Graph {
      * Add a vertex to the current graph with its dependencies if exists.
      * Be careful, if the vertex already exist, it won't be added to the current graph.
      * @param number The number of the vertex to add
-     * @param neighbors The real list of neighbors the vertex has
+     * @param neighbors The integer list of neighbors the vertex has
      * @return Return TRUE if the vertex is successfully added, FALSE if it already exists into the current graph.
      */
     public boolean addVertex(int number, HashSet<Integer> neighbors) {

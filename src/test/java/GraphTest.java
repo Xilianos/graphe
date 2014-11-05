@@ -37,8 +37,7 @@ public class GraphTest extends TestCase {
         assertNotNull(this.graph.getVertices());
         assertTrue(this.graph.getVertices().containsKey(1));
         assertTrue(this.graph.getVertices().containsKey(2));
-        assertTrue(this.graph.getVertices().containsKey(3));
-        assertEquals(3, this.graph.getVertices().size());
+        assertEquals(2, this.graph.getVertices().size());
     }
 
     public void testSetVertices() {
@@ -55,13 +54,15 @@ public class GraphTest extends TestCase {
     public void testAddVertex() throws Exception {
         HashSet<Integer> nbOf3 = new HashSet<Integer>();
 
-        assertFalse(this.graph.addVertex(new Vertex(1, null)));
-        assertTrue(this.graph.addVertex(new Vertex(4, null)));
+        assertFalse(this.graph.addVertex(new Vertex(1)));
+        assertTrue(this.graph.addVertex(new Vertex(4)));
+        assertFalse(this.graph.getVertices().containsKey(3));
 
         nbOf3.add(1);
         nbOf3.add(2);
         this.graph.addVertex(new Vertex(3, nbOf3));
-        // To be continue...
+
+        assertTrue(this.graph.getVertices().containsKey(3));
     }
 
 }
