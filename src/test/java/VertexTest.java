@@ -1,7 +1,7 @@
 import Model.Vertex;
 import junit.framework.TestCase;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class VertexTest extends TestCase {
 
@@ -13,10 +13,9 @@ public class VertexTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
-        Vertex v2 = new Vertex(2);
+        HashSet<Integer> neighbors = new HashSet<Integer>();
         this.vertex = new Vertex(1);
-        neighbors.put(v2.getNumber(), v2);
+        neighbors.add(2);
         this.vertex.setNeighbors(neighbors);
     }
 
@@ -40,29 +39,23 @@ public class VertexTest extends TestCase {
 
     public void testGetNeighbors() throws Exception {
         assertNotNull(this.vertex.getNeighbors());
-        assertTrue(this.vertex.getNeighbors().containsKey(2));
+        assertTrue(this.vertex.getNeighbors().contains(2));
         assertEquals(1, this.vertex.getNeighbors().size());
     }
 
     public void testSetNeighbors() throws Exception {
-        HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
-        Vertex v3 = new Vertex(3);
-        neighbors.put(v3.getNumber(), v3);
+        HashSet<Integer> neighbors = new HashSet<Integer>();
+        neighbors.add(3);
         this.vertex.setNeighbors(neighbors);
 
         assertNotNull(this.vertex.getNeighbors());
-        assertTrue(this.vertex.getNeighbors().containsKey(3));
+        assertTrue(this.vertex.getNeighbors().contains(3));
         assertEquals(1, this.vertex.getNeighbors().size());
         assertFalse(this.vertex.getNeighbors() == neighbors);
     }
 
-    public void testIsComplete() {
-        assertTrue(this.vertex.isComplete());
-        assertFalse(this.vertex.getNeighbors().get(2).isComplete());
-    }
-
     public void testRegisterNeighbor() throws Exception {
-        assertTrue(this.vertex.registerNeighbor(new Vertex(3)));
-        assertFalse(this.vertex.registerNeighbor(new Vertex(2)));
+        assertTrue(this.vertex.registerNeighbor(3));
+        assertFalse(this.vertex.registerNeighbor(2));
     }
 }

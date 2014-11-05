@@ -1,6 +1,6 @@
 package Model;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * @author cedric
@@ -19,24 +19,34 @@ public class Vertex {
 
     private int number;
     private Color color = Color.NONE;
-    private HashMap<Integer, Vertex> neighbors;
-    private boolean complete = false;
+    private HashSet<Integer> neighbors;
 
     public Vertex(int number) {
         super();
         this.number = number;
-        this.neighbors = new HashMap<Integer, Vertex>();
+        this.neighbors = new HashSet<Integer>();
     }
 
-    public Vertex(int number, HashMap<Integer, Vertex> neighbors) {
+    public Vertex(int number, HashSet<Integer> neighbors) {
         super();
         this.number = number;
-        this.complete = true;
         if(neighbors == null) {
-            this.neighbors = new HashMap<Integer, Vertex>();
+            this.neighbors = new HashSet<Integer>();
         }
         else {
-            this.neighbors = new HashMap<Integer, Vertex>(neighbors);
+            this.neighbors = new HashSet<Integer>(neighbors);
+        }
+    }
+
+    public Vertex(Vertex v) {
+        super();
+        this.number = v.getNumber();
+        this.color = v.getColor();
+        if (v.getNeighbors() == null) {
+            this.neighbors = new HashSet<Integer>();
+        }
+        else {
+            this.neighbors = v.getNeighbors();
         }
     }
 
@@ -76,7 +86,7 @@ public class Vertex {
      *
      * @return Return the neighbors list
      */
-    public HashMap<Integer, Vertex> getNeighbors() {
+    public HashSet<Integer> getNeighbors() {
         return neighbors;
     }
 
@@ -84,39 +94,21 @@ public class Vertex {
      *
      * @param neighbors Replace the neighbors list by this one
      */
-    public void setNeighbors(HashMap<Integer, Vertex> neighbors) {
-        this.neighbors = new HashMap<Integer, Vertex>(neighbors);
-        this.complete = true;
+    public void setNeighbors(HashSet<Integer> neighbors) {
+        this.neighbors = new HashSet<Integer>(neighbors);
     }
-
-    /**
-     *
-     * @return Return if the vertex is completely build
-     */
-    public boolean isComplete() {
-        return complete;
-    }
-
-    /**
-     *
-     * @param complete Replace the current complete status by this one
-     */
-    private void setComplete(boolean complete) {
-        this.complete = complete;
-    }
-
 
     /**
      * Add a new neighbor to the current vertex
      * @param neighbor The neighbor reference to add
      * @return Return TRUE if the neighbor is successfully added, FALSE if it already exists
      */
-    public boolean registerNeighbor(Vertex neighbor) {
-        if(this.neighbors.containsKey(neighbor.getNumber())) {
+    public boolean registerNeighbor(int neighbor) {
+        if(this.neighbors.contains(neighbor)) {
             return false;
         }
         else {
-            this.neighbors.put(neighbor.getNumber(), neighbor);
+            this.neighbors.add(neighbor);
             return true;
         }
     }

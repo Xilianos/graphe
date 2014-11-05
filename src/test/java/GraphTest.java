@@ -3,6 +3,7 @@ import Model.Vertex;
 import junit.framework.TestCase;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GraphTest extends TestCase {
 
@@ -15,10 +16,12 @@ public class GraphTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        HashMap<Integer, Vertex> nbOf1 = new HashMap<Integer, Vertex>();
-        HashMap<Integer, Vertex> nbOf2 = new HashMap<Integer, Vertex>();
-        nbOf1.put(2, new Vertex(2));
-        nbOf2.put(1, new Vertex(1));
+        HashSet<Integer> nbOf1 = new HashSet<Integer>();
+        HashSet<Integer> nbOf2 = new HashSet<Integer>();
+        nbOf1.add(2);
+        nbOf1.add(3);
+        nbOf2.add(1);
+        nbOf2.add(3);
 
         this.graph = new Graph();
         this.graph.addVertex(1, nbOf1);
@@ -34,24 +37,31 @@ public class GraphTest extends TestCase {
         assertNotNull(this.graph.getVertices());
         assertTrue(this.graph.getVertices().containsKey(1));
         assertTrue(this.graph.getVertices().containsKey(2));
-        assertEquals(2, this.graph.getVertices().size());
+        assertTrue(this.graph.getVertices().containsKey(3));
+        assertEquals(3, this.graph.getVertices().size());
     }
 
     public void testSetVertices() {
         HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
-        vertices.put(3, new Vertex(3));
+        vertices.put(4, new Vertex(4));
         this.graph.setVertices(vertices);
 
         assertNotNull(this.graph.getVertices());
-        assertTrue(this.graph.getVertices().containsKey(3));
+        assertTrue(this.graph.getVertices().containsKey(4));
         assertEquals(1, this.graph.getVertices().size());
         assertFalse(this.graph.getVertices() == vertices);
     }
 
     public void testAddVertex() throws Exception {
-        assertFalse(graph.addVertex(new Vertex(1, null)));
-        assertTrue(graph.addVertex(new Vertex(3, null)));
-        //assertNotNull(graph.);
+        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+
+        assertFalse(this.graph.addVertex(new Vertex(1, null)));
+        assertTrue(this.graph.addVertex(new Vertex(4, null)));
+
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(new Vertex(3, nbOf3));
+        // To be continue...
     }
 
 }
