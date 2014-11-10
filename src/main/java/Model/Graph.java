@@ -2,6 +2,7 @@ package Model;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 /**
  * @author cedric
@@ -59,6 +60,22 @@ public class Graph {
      */
     public boolean addVertex(int number, HashSet<Integer> neighbors) {
         return this.addVertex(new Vertex(number, neighbors));
+    }
+
+    /**
+     * Find all neighbors  reference of a vertex into a linked map
+     * @param vertex Vertex for which find all neighbors reference
+     * @return Return the neighbors linked map references of the vertex number given
+     */
+    public LinkedHashMap<Integer, Vertex> getNeighborsMap(int vertex) {
+        LinkedHashMap<Integer, Vertex> neighbors = new LinkedHashMap<Integer, Vertex>();
+        Vertex v = this.vertices.get(vertex);
+
+        for (Integer i : v.getNeighbors()) {
+            neighbors.put(i, this.vertices.get(i));
+        }
+
+        return neighbors;
     }
 
     @Override

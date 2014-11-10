@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 public class GraphTest extends TestCase {
 
@@ -63,6 +64,25 @@ public class GraphTest extends TestCase {
         this.graph.addVertex(new Vertex(3, nbOf3));
 
         assertTrue(this.graph.getVertices().containsKey(3));
+    }
+
+    public void testGetNeighborsMap() {
+        LinkedHashMap<Integer, Vertex> neighbors;
+        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(3, nbOf3);
+        this.graph.addVertex(4, null);
+
+        neighbors = this.graph.getNeighborsMap(1);
+
+        assertEquals(2, neighbors.get(2).getNumber());
+        assertEquals(3, neighbors.get(3).getNumber());
+
+        neighbors = this.graph.getNeighborsMap(4);
+
+        assertNotNull(neighbors);
+        assertEquals(0, neighbors.size());
     }
 
 }
