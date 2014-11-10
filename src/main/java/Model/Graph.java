@@ -63,7 +63,14 @@ public class Graph {
 
     @Override
     public String toString() {
-        return super.toString();
+        StringBuilder ret = new StringBuilder("");
+
+        for (Integer i : this.vertices.keySet()) {
+            ret.append(this.vertices.get(i).toString());
+            ret.append("\n");
+        }
+
+        return ret.toString();
     }
 
 }

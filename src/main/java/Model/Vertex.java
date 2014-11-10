@@ -115,7 +115,19 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return "n:" + this.number + " c:" + this.color;
+        StringBuilder ret = new StringBuilder("n:" + this.number + " c:" + this.color + " nei:");
+
+        if (this.neighbors.size() > 0) {
+            for (Integer i : this.neighbors) {
+                ret.append(i);
+                ret.append(" ");
+            }
+        }
+        else {
+            ret.append("void");
+        }
+
+        return ret.toString();
     }
 
 }
