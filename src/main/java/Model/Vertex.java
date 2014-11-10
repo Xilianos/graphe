@@ -62,7 +62,7 @@ public class Vertex {
      *
      * @param number Replace current number by this one
      */
-    private void setNumber(int number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

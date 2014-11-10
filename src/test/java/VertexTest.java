@@ -28,12 +28,17 @@ public class VertexTest extends TestCase {
         assertEquals(1, this.vertex.getNumber());
     }
 
+    public void testSetNumber() {
+        this.vertex.setNumber(2);
+        assertEquals(2, this.vertex.getNumber());
+    }
+
     public void testGetColor() throws Exception {
         assertEquals(Vertex.Color.NONE, this.vertex.getColor());
     }
 
     public void testSetColor() throws Exception {
-        vertex.setColor(Vertex.Color.BLUE);
+        this.vertex.setColor(Vertex.Color.BLUE);
         assertEquals(Vertex.Color.BLUE, this.vertex.getColor());
     }
 
