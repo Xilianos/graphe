@@ -113,6 +113,14 @@ public class Vertex {
         }
     }
 
+    /**
+     * Give the degree of the current vertex
+     * @return Return the current degree
+     */
+    public int degree() {
+        return this.neighbors.size();
+    }
+
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder("n:" + this.number + " c:" + this.color + " nei:");
