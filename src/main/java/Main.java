@@ -1,9 +1,15 @@
+import Model.GraphBuilder;
+
 /**
- * Created by Cedric on 02/11/14.
+ * @author Cedric
+ *
  */
-@SuppressWarnings("DefaultFileTemplate")
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        GraphBuilder gb = new GraphBuilder("/home/cedric/graphe.graph");
+        gb.getGraph().setColoration();
+        System.out.println(gb.toString());
     }
 }
+

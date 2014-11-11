@@ -85,4 +85,45 @@ public class GraphTest extends TestCase {
         assertEquals(0, neighbors.size());
     }
 
+    public void testSetColoration() {
+        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(new Vertex(3, nbOf3));
+        this.graph.addVertex(4, null);
+
+        this.graph.setColoration();
+        assertTrue(this.graph.getVertices().get(1).getColor() != this.graph.getVertices().get(2).getColor());
+        assertTrue(this.graph.getVertices().get(2).getColor() != this.graph.getVertices().get(3).getColor());
+        assertTrue(this.graph.getVertices().get(3).getColor() != this.graph.getVertices().get(1).getColor());
+        assertEquals(Graph.colors[0], this.graph.getVertices().get(4).getColor());
+    }
+
+    public void testSetColorToVertex() {
+        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(new Vertex(3, nbOf3));
+
+        this.graph.setColorToVertex(1);
+        assertEquals(Graph.colors[0], this.graph.getVertices().get(1).getColor());
+        this.graph.setColorToVertex(2);
+        assertEquals(Graph.colors[1], this.graph.getVertices().get(2).getColor());
+        this.graph.setColorToVertex(3);
+        assertEquals(Graph.colors[2], this.graph.getVertices().get(3).getColor());
+    }
+
+    public void testGetPossibleColor() {
+        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(new Vertex(3, nbOf3));
+        this.graph.addVertex(4, null);
+
+        assertEquals(Graph.colors[0], this.graph.getPossibleColor(4));
+
+        this.graph.setColorToVertex(1);
+        assertEquals(Graph.colors[1], this.graph.getPossibleColor(2));
+    }
+
 }

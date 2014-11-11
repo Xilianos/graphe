@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * @author cedric
@@ -11,6 +9,11 @@ import java.util.LinkedHashMap;
 public class Graph {
 
     private HashMap<Integer, Vertex> vertices;
+    public static Vertex.Color colors[] = {
+                    Vertex.Color.RED, Vertex.Color.GREEN,
+                    Vertex.Color.BLUE, Vertex.Color.YELLOW,
+                    Vertex.Color.PINK, Vertex.Color.NONE
+            };
 
     /**
      * The default constructor create an empty graph
@@ -76,6 +79,93 @@ public class Graph {
         }
 
         return neighbors;
+    }
+
+    /**
+     * Set the coloration of all vertices
+     */
+    public void setColoration() {
+        Vertex v;
+        for (Integer i : this.vertices.keySet()) {
+            v = this.vertices.get(i);
+            this.setColorToVertex(v);
+        }
+    }
+
+    /**
+     * Find and set a color to the vertex given
+     * May change other vertex color
+     * @param vertex Vertex number for which find and set a color
+     */
+    public void setColorToVertex(int vertex) {
+        this.setColorToVertex(this.vertices.get(vertex));
+    }
+
+    /**
+     * Find and set a color to the vertex given
+     * May change other vertex color
+     * @param vertex Vertex for which find and set a color
+     */
+    public void setColorToVertex(Vertex vertex) {
+        // Trouver la couleur la plus prioritaire
+        Vertex.Color color = this.getPossibleColor(vertex);
+        // L'affecter au sommet
+        if (Vertex.Color.NONE != color) {
+            vertex.setColor(color);
+        }
+        // Si pas de couleur trouvée, laisser NONE
+        // Cas à gérer plus tard...
+        else {
+
+        }
+    }
+
+    /**
+     * Find the first priority color to set for the given vertex
+     * @param vertex Vertex for which find a color
+     * @return Return the color found
+     */
+    public Vertex.Color getPossibleColor(Vertex vertex) {
+        boolean colorsUsed[] = {false, false, false, false, false, false};
+        Vertex.Color color;
+
+        for (Integer i : vertex.getNeighbors()) {
+            color = this.vertices.get(i).getColor();
+
+            if (colors[0] == color) {
+                colorsUsed[0] = true;
+            }
+            else if (colors[1] == color) {
+                colorsUsed[1] = true;
+            }
+            else if (colors[2] == color) {
+                colorsUsed[2] = true;
+            }
+            else if (colors[3] == color) {
+                colorsUsed[3] = true;
+            }
+            else if (colors[4] == color) {
+                colorsUsed[4] = true;
+            }
+        }
+
+        for (int i = 0; i < 5; ++i) {
+            if (!colorsUsed[i]) {
+                return colors[i];
+            }
+        }
+
+        return colors[5];
+    }
+
+    /**
+     * Find the first priority color to set for the given vertex
+     * @param vertex Vertex number for which find a color
+     * @return Return the color found
+     */
+    public Vertex.Color getPossibleColor(int vertex) {
+        return this.getPossibleColor(this.vertices.get(vertex));
+
     }
 
     @Override
