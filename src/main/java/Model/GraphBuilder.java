@@ -14,15 +14,25 @@ public class GraphBuilder {
     private Graph graph;
 
     public GraphBuilder(String filePath) {
-        graph = new Graph();
+        int nbVertices;
         // Ouvrir le fichier
         try{
             BufferedReader buff = new BufferedReader(new FileReader(filePath));
 
             try {
                 String line;
+                // Lecture du nombre de sommets
+                if ((line = buff.readLine()) != null) {
+                    nbVertices = Integer.parseInt(line);
+                    this.graph = new Graph(nbVertices);
+                }
+                else {
+                    throw new IOException();
+                }
 
-                while ((line = buff.readLine()) != null) {
+                // Parcours du fichier
+                for (int i = 0; i < nbVertices; ++i) {
+                    line = buff.readLine();
                     this.parseLine(line);
                 }
             } finally {
@@ -46,12 +56,12 @@ public class GraphBuilder {
         for (int i = 0; i < line.length(); ++i) {
             c = line.charAt(i);
 
-            if (c == ' ') {
+            if (c == ':') {
                 // Traitement du nombre du sommet lu
                 vertex = Integer.parseInt(integer.toString());
                 // Vidage du buffer integer
                 integer.delete(0, integer.length());
-                ++i;
+                i += 2;
             }
             else {
                 if (c == ']') {

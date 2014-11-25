@@ -24,7 +24,7 @@ public class GraphTest extends TestCase {
         nbOf2.add(1);
         nbOf2.add(3);
 
-        this.graph = new Graph();
+        this.graph = new Graph(3);
         this.graph.addVertex(1, nbOf1);
         this.graph.addVertex(2, nbOf2);
     }

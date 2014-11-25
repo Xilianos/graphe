@@ -18,8 +18,8 @@ public class Graph {
     /**
      * The default constructor create an empty graph
      */
-    public Graph() {
-        this.vertices = new HashMap<Integer, Vertex>();
+    public Graph(int capacity) {
+        this.vertices = new HashMap<Integer, Vertex>(capacity);
     }
 
     /**
