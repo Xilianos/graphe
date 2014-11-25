@@ -1,4 +1,4 @@
-import Model.GraphBuilder;
+import model.GraphBuilder;
 import junit.framework.TestCase;
 
 public class GraphBuilderTest extends TestCase {

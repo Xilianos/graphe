@@ -1,5 +1,5 @@
-import Model.Graph;
-import Model.Vertex;
+import model.Graph;
+import model.Vertex;
 import junit.framework.TestCase;
 
 import java.util.HashMap;

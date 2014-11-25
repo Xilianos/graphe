@@ -1,4 +1,4 @@
-import Model.Vertex;
+import model.Vertex;
 import junit.framework.TestCase;
 
 import java.util.HashSet;
