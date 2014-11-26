@@ -67,4 +67,19 @@ public class VertexTest extends TestCase {
     public void testDegree() {
         assertEquals(1, this.vertex.degree());
     }
+
+    public void testDisconnectVertex() {
+        assertTrue(this.vertex.isConnected());
+
+        this.vertex.disconnectVertex();
+        assertFalse(this.vertex.isConnected());
+    }
+
+    public void testReconnectVertex() {
+        this.vertex.disconnectVertex();
+        assertFalse(this.vertex.isConnected());
+
+        this.vertex.reconnectVertex();
+        assertTrue(this.vertex.isConnected());
+    }
 }

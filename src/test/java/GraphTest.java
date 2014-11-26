@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class GraphTest extends TestCase {
 
@@ -67,7 +66,7 @@ public class GraphTest extends TestCase {
     }
 
     public void testGetNeighborsMap() {
-        LinkedHashMap<Integer, Vertex> neighbors;
+        HashMap<Integer, Vertex> neighbors;
         ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
@@ -126,24 +125,35 @@ public class GraphTest extends TestCase {
         assertEquals(Graph.colors[1], this.graph.getPossibleColor(2));
     }
 
-    public void testDisconnectVertex() {
+    public void testGetCountEnabledNeighbors() {
         ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
-        this.graph.addVertex(3, nbOf3);
+        this.graph.addVertex(new Vertex(3, nbOf3));
 
-        assertTrue(this.graph.getVertices().get(1).getNeighbors().size() == 2);
-        assertTrue(this.graph.getVertices().get(2).getNeighbors().size() == 2);
-        assertTrue(this.graph.getVertices().get(3).getNeighbors().size() == 2);
+        assertEquals(2, this.graph.getCountEnabledNeighbors(1));
+        assertEquals(2, this.graph.getCountEnabledNeighbors(2));
 
-        this.graph.disconnectVertex(2);
+        this.graph.getVertices().get(3).disconnectVertex();
+        assertEquals(1, this.graph.getCountEnabledNeighbors(1));
+        assertEquals(1, this.graph.getCountEnabledNeighbors(2));
 
-        assertTrue(this.graph.getVertices().get(1).getNeighbors().size() == 1);
-        assertNotNull(this.graph.getNeighborsMap(1).get(3));
-
-        assertTrue(this.graph.getVertices().get(3).getNeighbors().size() == 1);
-        assertNotNull(this.graph.getNeighborsMap(3).get(1));
-
+        this.graph.getVertices().get(2).disconnectVertex();
+        assertEquals(0, this.graph.getCountEnabledNeighbors(1));
     }
 
+    public void testIsCorrectlyColored() {
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
+        nbOf3.add(1);
+        nbOf3.add(2);
+        this.graph.addVertex(new Vertex(3, nbOf3));
+
+        assertFalse(this.graph.isCorrectlyColored());
+
+        this.graph.setColoration();
+        assertTrue(this.graph.isCorrectlyColored());
+
+        this.graph.getVertices().get(2).setColor(Vertex.Color.RED);
+        assertFalse(this.graph.isCorrectlyColored());
+    }
 }

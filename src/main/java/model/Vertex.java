@@ -20,6 +20,7 @@ public class Vertex {
     private int number;
     private Color color = Color.NONE;
     private ArrayList<Integer> neighbors;
+    private boolean connected = true;
 
     public Vertex(int number) {
         super();
@@ -114,6 +115,28 @@ public class Vertex {
     }
 
     /**
+     * Return the vertex status
+     * @return Return true if vertex is enabled, else false
+     */
+    public boolean isConnected() {
+        return this.connected;
+    }
+
+    /**
+     * Disconnect vertex to the current graph
+     */
+    public void disconnectVertex() {
+        this.connected = false;
+    }
+
+    /**
+     * Reconnect vertex to the current graph
+     */
+    public void reconnectVertex() {
+        this.connected = true;
+    }
+
+    /**
      * Give the degree of the current vertex
      * @return Return the current degree
      */
@@ -130,12 +153,10 @@ public class Vertex {
                 ret.append(i);
                 ret.append(" ");
             }
-        }
-        else {
+        } else {
             ret.append("void");
         }
 
         return ret.toString();
     }
-
 }

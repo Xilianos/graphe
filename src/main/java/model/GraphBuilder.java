@@ -99,9 +99,10 @@ public class GraphBuilder {
     }
 
     /**
-     * Colore récursivement
+     * Recursive coloration
+     * @param graph Graph to color
      */
-    public static void recursiveColoration(Graph graphe) {
+    public static void recursiveColoration(Graph graph) {
 
     }
 

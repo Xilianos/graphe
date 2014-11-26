@@ -8,7 +8,8 @@ import java.util.*;
  */
 public class Graph {
 
-    private HashMap<Integer, Vertex> vertices;
+    private HashMap<Integer, Vertex> vertices;;
+
     public static Vertex.Color colors[] = {
                     Vertex.Color.RED, Vertex.Color.GREEN,
                     Vertex.Color.BLUE, Vertex.Color.YELLOW,
@@ -79,8 +80,8 @@ public class Graph {
      * @param vertex Vertex for which find all neighbors reference
      * @return Return the neighbors linked map references of the vertex number given
      */
-    public LinkedHashMap<Integer, Vertex> getNeighborsMap(int vertex) {
-        LinkedHashMap<Integer, Vertex> neighbors = new LinkedHashMap<Integer, Vertex>();
+    public HashMap<Integer, Vertex> getNeighborsMap(int vertex) {
+        HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
         Vertex v = this.vertices.get(vertex);
 
         for (Integer i : v.getNeighbors()) {
@@ -94,9 +95,11 @@ public class Graph {
      * Set the coloration of all vertices
      */
     public void setColoration() {
-        Vertex v;
-        for (Integer i : this.vertices.keySet()) {
-            v = this.vertices.get(i);
+        // Récupération de tous les sommets du graphe
+        Collection<Vertex> vertices = this.vertices.values();
+        // Pour tous les sommets du graphe
+        for (Vertex v : vertices) {
+            // Colorer le sommet parcouru
             this.setColorToVertex(v);
         }
     }
@@ -111,7 +114,7 @@ public class Graph {
     }
 
     /**
-     * Find and set a color to the vertex given
+     * Find and set a color to the given vertex
      * May change other vertex color
      * @param vertex Vertex for which find and set a color
      */
@@ -131,6 +134,7 @@ public class Graph {
 
     /**
      * Find the first priority color to set for the given vertex
+     * Temps : O(nbVoisins) + O(5) = O(n)
      * @param vertex Vertex for which find a color
      * @return Return the color found
      */
@@ -138,32 +142,44 @@ public class Graph {
         boolean colorsUsed[] = {false, false, false, false, false, false};
         Vertex.Color color;
 
+        // Pour tous les voisins du sommet donné
         for (Integer i : vertex.getNeighbors()) {
+            // On récupère la couleur du voisin parcouru
             color = this.vertices.get(i).getColor();
 
+            // S'il est rouge alors on bloque la couleur rouge
             if (colors[0] == color) {
                 colorsUsed[0] = true;
             }
+            // Sinon s'il est vert alors on bloque la couleur verte
             else if (colors[1] == color) {
                 colorsUsed[1] = true;
             }
+            // Sinon s'il est bleu alors on bloque la couleur bleue
             else if (colors[2] == color) {
                 colorsUsed[2] = true;
             }
+            // Sinon s'il est jaune alors on bloque la couleur jaune
             else if (colors[3] == color) {
                 colorsUsed[3] = true;
             }
+            // Sinon s'il est rose alors on bloque la couleur rose
             else if (colors[4] == color) {
                 colorsUsed[4] = true;
             }
         }
 
+        // Pour le nombre de couleur existantes (5 couleurs)
         for (int i = 0; i < 5; ++i) {
+            // Si la couleur n'est pas marquée comme utilisée
             if (!colorsUsed[i]) {
+                // Alors on retourne cette couleur
                 return colors[i];
             }
         }
 
+        // Si on arrive ici, alors aucune couleur n'est possible
+        // On retourne la couleur NONE
         return colors[5];
     }
 
@@ -174,21 +190,55 @@ public class Graph {
      */
     public Vertex.Color getPossibleColor(int vertex) {
         return this.getPossibleColor(this.vertices.get(vertex));
-
     }
 
     /**
-     * Disconnect vertex to the current graph
-     * @param vertex Vertex number of the vertex to disconnect
+     * Get the enabled neighbors count of the given vertex number
+     * @param vertex Vertex number for which count enabled neighbors
+     * @return The count of enabled neighbors
      */
-    public void disconnectVertex(int vertex) {
-        // Oubli de ce vertex par ses voisins
-        ArrayList<Integer> nei = this.vertices.get(vertex).getNeighbors();
-        for(int neighbors : nei) {
-            this.vertices.get(neighbors).getNeighbors().remove(new Integer(vertex));
+    public int getCountEnabledNeighbors(int vertex) {
+        int count = 0;
+        HashMap<Integer, Vertex> nei = this.getNeighborsMap(vertex);
+
+        // Pour tous les voisins du sommet donné
+        for(Vertex v : nei.values()) {
+            // Si le voisin parcouru est connecté
+            if(v.isConnected()) {
+                // Alors il compte parmi les voisins encore connectés au graphe
+                count++;
+            }
         }
-        // Enlève le vertex du graphe
-        this.vertices.remove(vertex);
+
+        return count;
+    }
+
+    /**
+     * Verify if the current graph is correctly colored
+     * @return Return true if current graph is correctly colored else false
+     */
+    public boolean isCorrectlyColored() {
+        Collection<Vertex> vertices = this.vertices.values();
+        ArrayList<Integer> neighbors;
+
+        // Pour chaque sommets existants dans le graphe
+        for(Vertex vertex : vertices) {
+            // On récupère les voisins du sommet parcouru
+            neighbors = this.vertices.get(vertex.getNumber()).getNeighbors();
+            // Pour tous les voisins du sommet parcouru
+            for(int nei : neighbors) {
+                // Si un voisin a la même couleur
+                // ou si le sommet parcouru n'a pas de couleur attribuée
+                if(vertex.getColor() == this.vertices.get(nei).getColor()
+                        || vertex.getColor() == Vertex.Color.NONE) {
+                    // Alors le graphe n'est pas correctement coloré
+                    return false;
+                }
+            }
+        }
+
+        // Si on arrive ici, alors aucune erreur de couleur n'a été détectée
+        return true;
     }
 
     @Override
