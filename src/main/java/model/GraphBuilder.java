@@ -98,6 +98,13 @@ public class GraphBuilder {
         return graph;
     }
 
+    /**
+     * Colore récursivement
+     */
+    public static void recursiveColoration(Graph graphe) {
+
+    }
+
     @Override
     public String toString() {
         return this.graph.toString();

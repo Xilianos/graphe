@@ -17,9 +17,18 @@ public class Graph {
 
     /**
      * The default constructor create an empty graph
+     * @param capacity Number of future vertices
      */
     public Graph(int capacity) {
         this.vertices = new HashMap<Integer, Vertex>(capacity);
+    }
+
+    /**
+     * Constructor which copy the given graph
+     * @param graph Graph to copy
+     */
+    public Graph(Graph graph) {
+        this.vertices = new HashMap<Integer, Vertex>(graph.getVertices());
     }
 
     /**
@@ -166,6 +175,20 @@ public class Graph {
     public Vertex.Color getPossibleColor(int vertex) {
         return this.getPossibleColor(this.vertices.get(vertex));
 
+    }
+
+    /**
+     * Disconnect vertex to the current graph
+     * @param vertex Vertex number of the vertex to disconnect
+     */
+    public void disconnectVertex(int vertex) {
+        // Oubli de ce vertex par ses voisins
+        ArrayList<Integer> nei = this.vertices.get(vertex).getNeighbors();
+        for(int neighbors : nei) {
+            this.vertices.get(neighbors).getNeighbors().remove(new Integer(vertex));
+        }
+        // Enlève le vertex du graphe
+        this.vertices.remove(vertex);
     }
 
     @Override
