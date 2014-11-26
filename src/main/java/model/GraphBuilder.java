@@ -78,6 +78,7 @@ public class GraphBuilder {
                     neighbors.add(Integer.parseInt(integer.toString()));
                     // Vidage du buffer integer
                     integer.delete(0, integer.length());
+                    i++;
                 }
                 else {
                     integer.append(c);
@@ -96,14 +97,6 @@ public class GraphBuilder {
      */
     public Graph getGraph() {
         return graph;
-    }
-
-    /**
-     * Recursive coloration
-     * @param graph Graph to color
-     */
-    public static void recursiveColoration(Graph graph) {
-
     }
 
     @Override

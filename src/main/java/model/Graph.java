@@ -77,14 +77,14 @@ public class Graph {
 
     /**
      * Find all neighbors  reference of a vertex into a linked map
+     * Temps : O(nbVoisins)
      * @param vertex Vertex for which find all neighbors reference
      * @return Return the neighbors linked map references of the vertex number given
      */
-    public HashMap<Integer, Vertex> getNeighborsMap(int vertex) {
+    public HashMap<Integer, Vertex> getNeighborsMap(Vertex vertex) {
         HashMap<Integer, Vertex> neighbors = new HashMap<Integer, Vertex>();
-        Vertex v = this.vertices.get(vertex);
 
-        for (Integer i : v.getNeighbors()) {
+        for (Integer i : vertex.getNeighbors()) {
             neighbors.put(i, this.vertices.get(i));
         }
 
@@ -93,13 +93,14 @@ public class Graph {
 
     /**
      * Set the coloration of all vertices
+     * Temps : O(nbSommets) + O(setColorToVertex)
      */
     public void setColoration() {
         // Récupération de tous les sommets du graphe
         Collection<Vertex> vertices = this.vertices.values();
-        // Pour tous les sommets du graphe
+        // Pour chaque sommet du graphe
         for (Vertex v : vertices) {
-            // Colorer le sommet parcouru
+            // Calculer la couleur du sommet parcouru
             this.setColorToVertex(v);
         }
     }
@@ -116,34 +117,96 @@ public class Graph {
     /**
      * Find and set a color to the given vertex
      * May change other vertex color
+     * Temps : O(getPossibleColor) + O(else)
      * @param vertex Vertex for which find and set a color
      */
     public void setColorToVertex(Vertex vertex) {
+        ArrayList<Integer> nei;
+        Vertex v;
         // Trouver la couleur la plus prioritaire
         Vertex.Color color = this.getPossibleColor(vertex);
         // L'affecter au sommet
         if (Vertex.Color.NONE != color) {
             vertex.setColor(color);
         }
-        // Si pas de couleur trouvée, laisser NONE
-        // Cas à gérer plus tard...
+        // Si pas de couleur trouvée alors brique 6
         else {
-
+            nei = this.getConnectedNeighbors(vertex);
+            v = this.vertices.get(nei.get(0));
+            this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(2)).getColor());
+            color = this.getPossibleColor(vertex);
+            if(color == Vertex.Color.NONE) {
+                v = this.vertices.get(nei.get(1));
+                this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(3)).getColor());
+                vertex.setColor(this.getPossibleColor(vertex));
+            }
+            else {
+                vertex.setColor(color);
+            }
         }
     }
 
     /**
+     *
+     * @param vertex
+     * @param c1
+     * @param c2
+     */
+    public void permuteColors(Vertex vertex, Vertex.Color c1, Vertex.Color c2) {
+        ArrayList<Vertex> nei = this.getArrayConnectedNeighbors(vertex);
+        vertex.setColor(c2);
+        for(Vertex v : nei) {
+            if (v.getColor() == c2) {
+                permuteColors(v, c2, c1);
+            }
+        }
+    }
+
+    /**
+     * List the connected neighbors without the ones disconnected
+     * Temps : O(nbVoisins) + O(n?)
+     * @param vertex Vertex on which make the list
+     * @return Return the list of connected neighbors
+     */
+    public ArrayList<Integer> getConnectedNeighbors(Vertex vertex) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> nei = vertex.getNeighbors();
+
+        for(int i : nei) {
+            if(this.getVertices().get(i).isConnected()) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+
+    public ArrayList<Vertex> getArrayConnectedNeighbors(Vertex vertex) {
+        ArrayList<Vertex> result = new ArrayList<Vertex>();
+        ArrayList<Integer> nei = vertex.getNeighbors();
+
+        for(int i : nei) {
+            if(this.getVertices().get(i).isConnected()) {
+                result.add(this.getVertices().get(i));
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Find the first priority color to set for the given vertex
-     * Temps : O(nbVoisins) + O(5) = O(n)
+     * Temps : O(nbVoisins) + O(nbVoisinsconnectés) + O(5)
      * @param vertex Vertex for which find a color
      * @return Return the color found
      */
     public Vertex.Color getPossibleColor(Vertex vertex) {
+        ArrayList<Integer> nei = this.getConnectedNeighbors(vertex);
         boolean colorsUsed[] = {false, false, false, false, false, false};
         Vertex.Color color;
 
         // Pour tous les voisins du sommet donné
-        for (Integer i : vertex.getNeighbors()) {
+        for (Integer i : nei) {
             // On récupère la couleur du voisin parcouru
             color = this.vertices.get(i).getColor();
 
@@ -197,7 +260,7 @@ public class Graph {
      * @param vertex Vertex number for which count enabled neighbors
      * @return The count of enabled neighbors
      */
-    public int getCountEnabledNeighbors(int vertex) {
+    public int getCountEnabledNeighbors(Vertex vertex) {
         int count = 0;
         HashMap<Integer, Vertex> nei = this.getNeighborsMap(vertex);
 
@@ -231,6 +294,8 @@ public class Graph {
                 // ou si le sommet parcouru n'a pas de couleur attribuée
                 if(vertex.getColor() == this.vertices.get(nei).getColor()
                         || vertex.getColor() == Vertex.Color.NONE) {
+                    System.out.println(vertex);
+                    System.out.println(this.vertices.get(nei));
                     // Alors le graphe n'est pas correctement coloré
                     return false;
                 }
@@ -239,6 +304,28 @@ public class Graph {
 
         // Si on arrive ici, alors aucune erreur de couleur n'a été détectée
         return true;
+    }
+
+    /**
+     *
+     */
+    public void recursiveColoration() {
+        Collection<Vertex> vertices = this.vertices.values();
+        Vertex vertex = null;
+
+        for(Vertex v : vertices) {
+            if(v.isConnected() && this.getConnectedNeighbors(v).size() <= 5) {
+                vertex = v;
+                break;
+            }
+        }
+
+        if(vertex != null) {
+            vertex.disconnectVertex();
+            this.recursiveColoration();
+            vertex.reconnectVertex();
+            this.setColorToVertex(vertex);
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 import model.Graph;
 import model.Vertex;
 import junit.framework.TestCase;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,12 +74,12 @@ public class GraphTest extends TestCase {
         this.graph.addVertex(3, nbOf3);
         this.graph.addVertex(4, null);
 
-        neighbors = this.graph.getNeighborsMap(1);
+        neighbors = this.graph.getNeighborsMap(this.graph.getVertices().get(1));
 
         assertEquals(2, neighbors.get(2).getNumber());
         assertEquals(3, neighbors.get(3).getNumber());
 
-        neighbors = this.graph.getNeighborsMap(4);
+        neighbors = this.graph.getNeighborsMap(this.graph.getVertices().get(4));
 
         assertNotNull(neighbors);
         assertEquals(0, neighbors.size());
@@ -131,15 +132,15 @@ public class GraphTest extends TestCase {
         nbOf3.add(2);
         this.graph.addVertex(new Vertex(3, nbOf3));
 
-        assertEquals(2, this.graph.getCountEnabledNeighbors(1));
-        assertEquals(2, this.graph.getCountEnabledNeighbors(2));
+        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
+        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
 
         this.graph.getVertices().get(3).disconnectVertex();
-        assertEquals(1, this.graph.getCountEnabledNeighbors(1));
-        assertEquals(1, this.graph.getCountEnabledNeighbors(2));
+        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
+        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
 
         this.graph.getVertices().get(2).disconnectVertex();
-        assertEquals(0, this.graph.getCountEnabledNeighbors(1));
+        assertEquals(0, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
     }
 
     public void testIsCorrectlyColored() {
@@ -150,7 +151,7 @@ public class GraphTest extends TestCase {
 
         assertFalse(this.graph.isCorrectlyColored());
 
-        this.graph.setColoration();
+        this.graph.recursiveColoration();
         assertTrue(this.graph.isCorrectlyColored());
 
         this.graph.getVertices().get(2).setColor(Vertex.Color.RED);
