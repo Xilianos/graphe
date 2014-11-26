@@ -2,8 +2,8 @@ import model.Graph;
 import model.Vertex;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public class GraphTest extends TestCase {
@@ -17,8 +17,8 @@ public class GraphTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        HashSet<Integer> nbOf1 = new HashSet<Integer>();
-        HashSet<Integer> nbOf2 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf1 = new ArrayList<Integer>();
+        ArrayList<Integer> nbOf2 = new ArrayList<Integer>();
         nbOf1.add(2);
         nbOf1.add(3);
         nbOf2.add(1);
@@ -53,7 +53,7 @@ public class GraphTest extends TestCase {
     }
 
     public void testAddVertex() throws Exception {
-        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
 
         assertFalse(this.graph.addVertex(new Vertex(1)));
         assertTrue(this.graph.addVertex(new Vertex(4)));
@@ -68,7 +68,7 @@ public class GraphTest extends TestCase {
 
     public void testGetNeighborsMap() {
         LinkedHashMap<Integer, Vertex> neighbors;
-        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
         this.graph.addVertex(3, nbOf3);
@@ -86,7 +86,7 @@ public class GraphTest extends TestCase {
     }
 
     public void testSetColoration() {
-        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
         this.graph.addVertex(new Vertex(3, nbOf3));
@@ -100,7 +100,7 @@ public class GraphTest extends TestCase {
     }
 
     public void testSetColorToVertex() {
-        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
         this.graph.addVertex(new Vertex(3, nbOf3));
@@ -114,7 +114,7 @@ public class GraphTest extends TestCase {
     }
 
     public void testGetPossibleColor() {
-        HashSet<Integer> nbOf3 = new HashSet<Integer>();
+        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
         nbOf3.add(1);
         nbOf3.add(2);
         this.graph.addVertex(new Vertex(3, nbOf3));

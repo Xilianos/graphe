@@ -61,7 +61,7 @@ public class Graph {
      * @param neighbors The integer list of neighbors the vertex has
      * @return Return TRUE if the vertex is successfully added, FALSE if it already exists into the current graph.
      */
-    public boolean addVertex(int number, HashSet<Integer> neighbors) {
+    public boolean addVertex(int number, ArrayList<Integer> neighbors) {
         return this.addVertex(new Vertex(number, neighbors));
     }
 

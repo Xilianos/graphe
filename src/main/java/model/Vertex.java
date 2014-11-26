@@ -1,6 +1,6 @@
 package model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * @author cedric
@@ -19,22 +19,22 @@ public class Vertex {
 
     private int number;
     private Color color = Color.NONE;
-    private HashSet<Integer> neighbors;
+    private ArrayList<Integer> neighbors;
 
     public Vertex(int number) {
         super();
         this.number = number;
-        this.neighbors = new HashSet<Integer>();
+        this.neighbors = new ArrayList<Integer>();
     }
 
-    public Vertex(int number, HashSet<Integer> neighbors) {
+    public Vertex(int number, ArrayList<Integer> neighbors) {
         super();
         this.number = number;
         if(neighbors == null) {
-            this.neighbors = new HashSet<Integer>();
+            this.neighbors = new ArrayList<Integer>();
         }
         else {
-            this.neighbors = new HashSet<Integer>(neighbors);
+            this.neighbors = new ArrayList<Integer>(neighbors);
         }
     }
 
@@ -43,7 +43,7 @@ public class Vertex {
         this.number = v.getNumber();
         this.color = v.getColor();
         if (v.getNeighbors() == null) {
-            this.neighbors = new HashSet<Integer>();
+            this.neighbors = new ArrayList<Integer>();
         }
         else {
             this.neighbors = v.getNeighbors();
@@ -86,7 +86,7 @@ public class Vertex {
      *
      * @return Return the neighbors list
      */
-    public HashSet<Integer> getNeighbors() {
+    public ArrayList<Integer> getNeighbors() {
         return neighbors;
     }
 
@@ -94,8 +94,8 @@ public class Vertex {
      *
      * @param neighbors Replace the neighbors list by this one
      */
-    public void setNeighbors(HashSet<Integer> neighbors) {
-        this.neighbors = new HashSet<Integer>(neighbors);
+    public void setNeighbors(ArrayList<Integer> neighbors) {
+        this.neighbors = new ArrayList<Integer>(neighbors);
     }
 
     /**

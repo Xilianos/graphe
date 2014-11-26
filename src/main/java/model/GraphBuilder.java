@@ -3,7 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * @author cedric
@@ -50,7 +50,7 @@ public class GraphBuilder {
     private void parseLine(String line) {
         StringBuilder integer = new StringBuilder("");
         int vertex = -1;
-        HashSet<Integer> neighbors = new HashSet<Integer>();
+        ArrayList<Integer> neighbors = new ArrayList<Integer>();
         char c;
 
         for (int i = 0; i < line.length(); ++i) {

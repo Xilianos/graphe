@@ -1,7 +1,7 @@
 import model.Vertex;
 import junit.framework.TestCase;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class VertexTest extends TestCase {
 
@@ -13,7 +13,7 @@ public class VertexTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        HashSet<Integer> neighbors = new HashSet<Integer>();
+        ArrayList<Integer> neighbors = new ArrayList<Integer>();
         this.vertex = new Vertex(1);
         neighbors.add(2);
         this.vertex.setNeighbors(neighbors);
@@ -49,7 +49,7 @@ public class VertexTest extends TestCase {
     }
 
     public void testSetNeighbors() throws Exception {
-        HashSet<Integer> neighbors = new HashSet<Integer>();
+        ArrayList<Integer> neighbors = new ArrayList<Integer>();
         neighbors.add(3);
         this.vertex.setNeighbors(neighbors);
 

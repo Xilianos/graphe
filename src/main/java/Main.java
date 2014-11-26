@@ -1,4 +1,4 @@
-import Model.GraphBuilder;
+import model.GraphBuilder;
 
 /**
  * @author Cedric
