@@ -8,9 +8,9 @@ import java.util.*;
  */
 public class Graph {
 
-    private HashMap<Integer, Vertex> vertices;;
+    private HashMap<Integer, Vertex> vertices;
 
-    public static Vertex.Color colors[] = {
+    public static final Vertex.Color colors[] = {
                     Vertex.Color.RED, Vertex.Color.GREEN,
                     Vertex.Color.BLUE, Vertex.Color.YELLOW,
                     Vertex.Color.PINK, Vertex.Color.NONE
@@ -22,14 +22,6 @@ public class Graph {
      */
     public Graph(int capacity) {
         this.vertices = new HashMap<Integer, Vertex>(capacity);
-    }
-
-    /**
-     * Constructor which copy the given graph
-     * @param graph Graph to copy
-     */
-    public Graph(Graph graph) {
-        this.vertices = new HashMap<Integer, Vertex>(graph.getVertices());
     }
 
     /**
