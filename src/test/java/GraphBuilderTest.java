@@ -1,4 +1,4 @@
-import model.GraphBuilder;
+import controller.GraphBuilder;
 import junit.framework.TestCase;
 
 public class GraphBuilderTest extends TestCase {
@@ -7,7 +7,8 @@ public class GraphBuilderTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        graphBuilder = new GraphBuilder(this.getClass().getResource("/sample.graph").toURI().toURL().getPath());
+        graphBuilder = new GraphBuilder();
+        this.graphBuilder.buildGraph(this.getClass().getResource("/sample.graph").toURI().toURL().getPath());
     }
 
     public void tearDown() throws Exception {

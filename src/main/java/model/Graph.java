@@ -25,15 +25,15 @@ public class Graph {
     }
 
     /**
-     *
-     * @return Return the neighbors list
+     * JUnit tests
+     * @return Return the vertices list
      */
     public HashMap<Integer, Vertex> getVertices() {
         return vertices;
     }
 
     /**
-     *
+     * JUnit tests
      * @param vertices Replace the Vertices list by this one
      */
     public void setVertices(HashMap<Integer, Vertex> vertices) {
@@ -41,6 +41,7 @@ public class Graph {
     }
 
     /**
+     * JUnit tests
      * Add a vertex to the current graph with its dependencies if exists.
      * Be careful, if the vertex already exist, it won't be added to the current graph.
      * @param v Vertex to add
@@ -57,6 +58,7 @@ public class Graph {
     }
 
     /**
+     * JUnit tests
      * Add a vertex to the current graph with its dependencies if exists.
      * Be careful, if the vertex already exist, it won't be added to the current graph.
      * @param number The number of the vertex to add
@@ -68,6 +70,7 @@ public class Graph {
     }
 
     /**
+     * JUnit tests
      * Find all neighbors  reference of a vertex into a linked map
      * Temps : O(nbVoisins)
      * @param vertex Vertex for which find all neighbors reference
@@ -83,21 +86,22 @@ public class Graph {
         return neighbors;
     }
 
-    /**
-     * Set the coloration of all vertices
-     * Temps : O(nbSommets) + O(setColorToVertex)
-     */
-    public void setColoration() {
-        // Récupération de tous les sommets du graphe
-        Collection<Vertex> vertices = this.vertices.values();
-        // Pour chaque sommet du graphe
-        for (Vertex v : vertices) {
-            // Calculer la couleur du sommet parcouru
-            this.setColorToVertex(v);
-        }
-    }
+//    /**
+//     * Set the coloration of all vertices
+//     * Temps : O(nbSommets) + O(setColorToVertex)
+//     */
+//    public void setColoration() {
+//        // Récupération de tous les sommets du graphe
+//        Collection<Vertex> vertices = this.vertices.values();
+//        // Pour chaque sommet du graphe
+//        for (Vertex v : vertices) {
+//            // Calculer la couleur du sommet parcouru
+//            this.setColorToVertex(v);
+//        }
+//    }
 
     /**
+     * JUnit tests
      * Find and set a color to the vertex given
      * May change other vertex color
      * @param vertex Vertex number for which find and set a color
@@ -110,6 +114,7 @@ public class Graph {
      * Find and set a color to the given vertex
      * May change other vertex color
      * Temps : O(getPossibleColor) + O(else)
+     * Mémoire : 5 + 1 + 3*12 + 5n
      * @param vertex Vertex for which find and set a color
      */
     public void setColorToVertex(Vertex vertex) {
@@ -139,10 +144,12 @@ public class Graph {
     }
 
     /**
-     *
-     * @param vertex
-     * @param c1
-     * @param c2
+     * Permute two colors recursively into all the connected component
+     * Temps : O(nbVoisins <= 5) * O(permutation) = O(n)
+     * Mémoire : 5n
+     * @param vertex Vertex in which replace the color 1 by the color 2
+     * @param c1 Current color to remember for the recursion
+     * @param c2 Color to set
      */
     public void permuteColors(Vertex vertex, Vertex.Color c1, Vertex.Color c2) {
         ArrayList<Vertex> nei = this.getArrayConnectedNeighbors(vertex);
@@ -173,6 +180,12 @@ public class Graph {
         return result;
     }
 
+    /**
+     * List the connected neighbors without the ones disconnected
+     * Temps : O(nbVoisins) * O(n?)
+     * @param vertex Vertex on which make the list
+     * @return Return the list of connected neighbors
+     */
     public ArrayList<Vertex> getArrayConnectedNeighbors(Vertex vertex) {
         ArrayList<Vertex> result = new ArrayList<Vertex>();
         ArrayList<Integer> nei = vertex.getNeighbors();
@@ -188,7 +201,8 @@ public class Graph {
 
     /**
      * Find the first priority color to set for the given vertex
-     * Temps : O(nbVoisins) + O(nbVoisinsconnectés) + O(5)
+     * Temps : O(nbVoisins) + O(nbVoisinsconnectés) + O(5) = O(n)
+     * Mémoire : 5 + 6 + 1 = 12
      * @param vertex Vertex for which find a color
      * @return Return the color found
      */
@@ -239,6 +253,7 @@ public class Graph {
     }
 
     /**
+     * JUnit tests
      * Find the first priority color to set for the given vertex
      * @param vertex Vertex number for which find a color
      * @return Return the color found
@@ -247,29 +262,30 @@ public class Graph {
         return this.getPossibleColor(this.vertices.get(vertex));
     }
 
-    /**
-     * Get the enabled neighbors count of the given vertex number
-     * @param vertex Vertex number for which count enabled neighbors
-     * @return The count of enabled neighbors
-     */
-    public int getCountEnabledNeighbors(Vertex vertex) {
-        int count = 0;
-        HashMap<Integer, Vertex> nei = this.getNeighborsMap(vertex);
-
-        // Pour tous les voisins du sommet donné
-        for(Vertex v : nei.values()) {
-            // Si le voisin parcouru est connecté
-            if(v.isConnected()) {
-                // Alors il compte parmi les voisins encore connectés au graphe
-                count++;
-            }
-        }
-
-        return count;
-    }
+//    /**
+//     * Get the enabled neighbors count of the given vertex number
+//     * @param vertex Vertex number for which count enabled neighbors
+//     * @return The count of enabled neighbors
+//     */
+//    public int getCountEnabledNeighbors(Vertex vertex) {
+//        int count = 0;
+//        HashMap<Integer, Vertex> nei = this.getNeighborsMap(vertex);
+//
+//        // Pour tous les voisins du sommet donné
+//        for(Vertex v : nei.values()) {
+//            // Si le voisin parcouru est connecté
+//            if(v.isConnected()) {
+//                // Alors il compte parmi les voisins encore connectés au graphe
+//                count++;
+//            }
+//        }
+//
+//        return count;
+//    }
 
     /**
      * Verify if the current graph is correctly colored
+     * Temps : O(nbSommets) * O(nbVoisins) env = O(n)
      * @return Return true if current graph is correctly colored else false
      */
     public boolean isCorrectlyColored() {
@@ -299,7 +315,9 @@ public class Graph {
     }
 
     /**
-     *
+     * Temps : n * 5 * n = O(n²)
+     * Mémoire : ((n * n) + n) * (5 + 1 + 3*12 + 5n)
+     * = (n² + n) * (5n + 42) = 5n³+47n²+42n
      */
     public void recursiveColoration() {
         Collection<Vertex> vertices = this.vertices.values();

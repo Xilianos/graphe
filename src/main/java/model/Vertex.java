@@ -136,13 +136,13 @@ public class Vertex {
         this.connected = true;
     }
 
-    /**
-     * Give the degree of the current vertex
-     * @return Return the current degree
-     */
-    public int degree() {
-        return this.neighbors.size();
-    }
+//    /**
+//     * Give the degree of the current vertex
+//     * @return Return the current degree
+//     */
+//    public int degree() {
+//        return this.neighbors.size();
+//    }
 
     @Override
     public String toString() {

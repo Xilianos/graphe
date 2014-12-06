@@ -1,4 +1,6 @@
-import model.GraphBuilder;
+import controller.GraphBuilder;
+import view.GraphView;
+import view.JGraphFrame;
 
 /**
  * @author Cedric
@@ -7,8 +9,8 @@ import model.GraphBuilder;
 
 public class Main {
     public static void main(String[] args) {
-        GraphBuilder gb = new GraphBuilder("/home/cedric/graphe.graph");
-        gb.getGraph().recursiveColoration();
+        GraphBuilder gb = new GraphBuilder();
+        new JGraphFrame(gb);
         System.out.println(gb.toString());
 
         if (gb.getGraph().isCorrectlyColored()) {

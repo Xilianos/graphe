@@ -1,4 +1,7 @@
-package model;
+package controller;
+
+import model.Graph;
+import view.GraphView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,8 +15,13 @@ import java.util.ArrayList;
 public class GraphBuilder {
 
     private Graph graph;
+    private GraphView view;
 
-    public GraphBuilder(String filePath) {
+    public GraphBuilder() {
+
+    }
+
+    public void buildGraph(String filePath) {
         int nbVertices;
         // Ouvrir le fichier
         try{
@@ -92,11 +100,41 @@ public class GraphBuilder {
     }
 
     /**
-     *
+     * Get the current graph
      * @return Return the graph
      */
     public Graph getGraph() {
         return graph;
+    }
+
+    /**
+     * Register the given view into the current controller
+     * @param view View to add
+     */
+    public void registerView(GraphView view) {
+        String filePath;
+        this.view = view;
+        filePath = this.view.openFile();
+
+        if(filePath != null) {
+            this.buildGraph(filePath);
+            this.graph.recursiveColoration();
+            // TODO: Dessiner le graphe dans la vue
+
+            this.view.display();
+        }
+        else {
+            this.unregisterView(this.view);
+        }
+    }
+
+    /**
+     * Unregister the given view reference from the current controller
+     * @param view View to remove
+     */
+    public void unregisterView(GraphView view) {
+        view.close();
+        System.exit(0);
     }
 
     @Override

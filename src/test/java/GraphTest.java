@@ -1,7 +1,6 @@
 import model.Graph;
 import model.Vertex;
 import junit.framework.TestCase;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,19 +84,19 @@ public class GraphTest extends TestCase {
         assertEquals(0, neighbors.size());
     }
 
-    public void testSetColoration() {
-        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
-        nbOf3.add(1);
-        nbOf3.add(2);
-        this.graph.addVertex(new Vertex(3, nbOf3));
-        this.graph.addVertex(4, null);
-
-        this.graph.setColoration();
-        assertTrue(this.graph.getVertices().get(1).getColor() != this.graph.getVertices().get(2).getColor());
-        assertTrue(this.graph.getVertices().get(2).getColor() != this.graph.getVertices().get(3).getColor());
-        assertTrue(this.graph.getVertices().get(3).getColor() != this.graph.getVertices().get(1).getColor());
-        assertEquals(Graph.colors[0], this.graph.getVertices().get(4).getColor());
-    }
+//    public void testSetColoration() {
+//        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
+//        nbOf3.add(1);
+//        nbOf3.add(2);
+//        this.graph.addVertex(new Vertex(3, nbOf3));
+//        this.graph.addVertex(4, null);
+//
+//        this.graph.setColoration();
+//        assertTrue(this.graph.getVertices().get(1).getColor() != this.graph.getVertices().get(2).getColor());
+//        assertTrue(this.graph.getVertices().get(2).getColor() != this.graph.getVertices().get(3).getColor());
+//        assertTrue(this.graph.getVertices().get(3).getColor() != this.graph.getVertices().get(1).getColor());
+//        assertEquals(Graph.colors[0], this.graph.getVertices().get(4).getColor());
+//    }
 
     public void testSetColorToVertex() {
         ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
@@ -126,22 +125,22 @@ public class GraphTest extends TestCase {
         assertEquals(Graph.colors[1], this.graph.getPossibleColor(2));
     }
 
-    public void testGetCountEnabledNeighbors() {
-        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
-        nbOf3.add(1);
-        nbOf3.add(2);
-        this.graph.addVertex(new Vertex(3, nbOf3));
-
-        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
-        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
-
-        this.graph.getVertices().get(3).disconnectVertex();
-        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
-        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
-
-        this.graph.getVertices().get(2).disconnectVertex();
-        assertEquals(0, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
-    }
+//    public void testGetCountEnabledNeighbors() {
+//        ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
+//        nbOf3.add(1);
+//        nbOf3.add(2);
+//        this.graph.addVertex(new Vertex(3, nbOf3));
+//
+//        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
+//        assertEquals(2, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
+//
+//        this.graph.getVertices().get(3).disconnectVertex();
+//        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
+//        assertEquals(1, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(2)));
+//
+//        this.graph.getVertices().get(2).disconnectVertex();
+//        assertEquals(0, this.graph.getCountEnabledNeighbors(this.graph.getVertices().get(1)));
+//    }
 
     public void testIsCorrectlyColored() {
         ArrayList<Integer> nbOf3 = new ArrayList<Integer>();
