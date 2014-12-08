@@ -1,5 +1,4 @@
 import controller.GraphBuilder;
-import view.GraphView;
 import view.JGraphFrame;
 
 /**
@@ -14,11 +13,12 @@ public class Main {
         System.out.println(gb.toString());
 
         if (gb.getGraph().isCorrectlyColored()) {
-            System.out.println("Halleluya !!!!!!!");
+            System.out.println("Coloration correcte");
         }
         else {
-            System.out.println("Pfffff... nul !");
+            System.out.println("Erreur dans la coloration");
         }
+        System.exit(0);
     }
 }
 

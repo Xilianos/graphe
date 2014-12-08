@@ -6,6 +6,7 @@
 
     <groupId>fr.univ-orleans.info.ihm</groupId>
     <artifactId>MGA</artifactId>
+
     <version>1.0</version>
 
     <dependencies>
@@ -16,6 +17,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 
 </project>

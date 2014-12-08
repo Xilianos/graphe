@@ -121,7 +121,7 @@ public class GraphBuilder {
             this.graph.recursiveColoration();
             // TODO: Dessiner le graphe dans la vue
 
-            this.view.display();
+//            this.view.display();
         }
         else {
             this.unregisterView(this.view);

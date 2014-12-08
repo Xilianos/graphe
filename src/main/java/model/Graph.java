@@ -86,20 +86,6 @@ public class Graph {
         return neighbors;
     }
 
-//    /**
-//     * Set the coloration of all vertices
-//     * Temps : O(nbSommets) + O(setColorToVertex)
-//     */
-//    public void setColoration() {
-//        // Récupération de tous les sommets du graphe
-//        Collection<Vertex> vertices = this.vertices.values();
-//        // Pour chaque sommet du graphe
-//        for (Vertex v : vertices) {
-//            // Calculer la couleur du sommet parcouru
-//            this.setColorToVertex(v);
-//        }
-//    }
-
     /**
      * JUnit tests
      * Find and set a color to the vertex given
@@ -113,15 +99,16 @@ public class Graph {
     /**
      * Find and set a color to the given vertex
      * May change other vertex color
-     * Temps : O(getPossibleColor) + O(else)
+     * Temps : O(n)
      * Mémoire : 5 + 1 + 3*12 + 5n
+     * 5+1+11+5n+5n
      * @param vertex Vertex for which find and set a color
      */
     public void setColorToVertex(Vertex vertex) {
-        ArrayList<Integer> nei;
-        Vertex v;
+        ArrayList<Integer> nei; // Mémoire : 5
+        Vertex v; // Mémoire : 1
         // Trouver la couleur la plus prioritaire
-        Vertex.Color color = this.getPossibleColor(vertex);
+        Vertex.Color color = this.getPossibleColor(vertex); // Mémoire : 11
         // L'affecter au sommet
         if (Vertex.Color.NONE != color) {
             vertex.setColor(color);
@@ -130,12 +117,12 @@ public class Graph {
         else {
             nei = this.getConnectedNeighbors(vertex);
             v = this.vertices.get(nei.get(0));
-            this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(2)).getColor());
-            color = this.getPossibleColor(vertex);
+            this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(2)).getColor()); // Mémoire : 5n
+            color = this.getPossibleColor(vertex); // Mémoire : 11
             if(color == Vertex.Color.NONE) {
                 v = this.vertices.get(nei.get(1));
-                this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(3)).getColor());
-                vertex.setColor(this.getPossibleColor(vertex));
+                this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(3)).getColor()); // Mémoire : 5n
+                vertex.setColor(this.getPossibleColor(vertex)); // Mémoire : 11
             }
             else {
                 vertex.setColor(color);
@@ -152,11 +139,11 @@ public class Graph {
      * @param c2 Color to set
      */
     public void permuteColors(Vertex vertex, Vertex.Color c1, Vertex.Color c2) {
-        ArrayList<Vertex> nei = this.getArrayConnectedNeighbors(vertex);
+        ArrayList<Vertex> nei = this.getArrayConnectedNeighbors(vertex); // Mémoire : 5
         vertex.setColor(c2);
         for(Vertex v : nei) {
             if (v.getColor() == c2) {
-                permuteColors(v, c2, c1);
+                permuteColors(v, c2, c1); // Mémoire : n
             }
         }
     }
@@ -182,7 +169,7 @@ public class Graph {
 
     /**
      * List the connected neighbors without the ones disconnected
-     * Temps : O(nbVoisins) * O(n?)
+     * Temps : O(nbVoisins)
      * @param vertex Vertex on which make the list
      * @return Return the list of connected neighbors
      */
@@ -201,14 +188,13 @@ public class Graph {
 
     /**
      * Find the first priority color to set for the given vertex
-     * Temps : O(nbVoisins) + O(nbVoisinsconnectés) + O(5) = O(n)
      * Mémoire : 5 + 6 + 1 = 12
      * @param vertex Vertex for which find a color
      * @return Return the color found
      */
     public Vertex.Color getPossibleColor(Vertex vertex) {
-        ArrayList<Integer> nei = this.getConnectedNeighbors(vertex);
-        boolean colorsUsed[] = {false, false, false, false, false, false};
+        ArrayList<Integer> nei = this.getConnectedNeighbors(vertex); // Mémoire : 5
+        boolean colorsUsed[] = {false, false, false, false, false, false}; // Mémoire : 6
         Vertex.Color color;
 
         // Pour tous les voisins du sommet donné
@@ -262,30 +248,8 @@ public class Graph {
         return this.getPossibleColor(this.vertices.get(vertex));
     }
 
-//    /**
-//     * Get the enabled neighbors count of the given vertex number
-//     * @param vertex Vertex number for which count enabled neighbors
-//     * @return The count of enabled neighbors
-//     */
-//    public int getCountEnabledNeighbors(Vertex vertex) {
-//        int count = 0;
-//        HashMap<Integer, Vertex> nei = this.getNeighborsMap(vertex);
-//
-//        // Pour tous les voisins du sommet donné
-//        for(Vertex v : nei.values()) {
-//            // Si le voisin parcouru est connecté
-//            if(v.isConnected()) {
-//                // Alors il compte parmi les voisins encore connectés au graphe
-//                count++;
-//            }
-//        }
-//
-//        return count;
-//    }
-
     /**
      * Verify if the current graph is correctly colored
-     * Temps : O(nbSommets) * O(nbVoisins) env = O(n)
      * @return Return true if current graph is correctly colored else false
      */
     public boolean isCorrectlyColored() {
@@ -315,13 +279,14 @@ public class Graph {
     }
 
     /**
-     * Temps : n * 5 * n = O(n²)
-     * Mémoire : ((n * n) + n) * (5 + 1 + 3*12 + 5n)
-     * = (n² + n) * (5n + 42) = 5n³+47n²+42n
+     * Temps : n * (n + n) = O(n²)
+     * Mémoire : n*(n+1+5+1+11+5n+5n)
+     * = n*(11n+15)
+     * = 11n² + 18n
      */
     public void recursiveColoration() {
-        Collection<Vertex> vertices = this.vertices.values();
-        Vertex vertex = null;
+        Collection<Vertex> vertices = this.vertices.values(); // Mémoire : n
+        Vertex vertex = null; // Mémoire : 1
 
         for(Vertex v : vertices) {
             if(v.isConnected() && this.getConnectedNeighbors(v).size() <= 5) {
@@ -332,9 +297,9 @@ public class Graph {
 
         if(vertex != null) {
             vertex.disconnectVertex();
-            this.recursiveColoration();
+            this.recursiveColoration(); // Mémoire : n
             vertex.reconnectVertex();
-            this.setColorToVertex(vertex);
+            this.setColorToVertex(vertex); // Mémoire : 5+1+11+5n+5n
         }
     }
 
