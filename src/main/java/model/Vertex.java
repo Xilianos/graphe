@@ -146,7 +146,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        StringBuilder ret = new StringBuilder("n:" + this.number + " c:" + this.color + " nei:");
+        StringBuilder ret = new StringBuilder("sommet:" + this.number + " couleur:" + this.color + " voisins:");
 
         if (this.neighbors.size() > 0) {
             for (Integer i : this.neighbors) {

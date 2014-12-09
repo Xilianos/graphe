@@ -117,8 +117,15 @@ public class GraphBuilder {
         filePath = this.view.openFile();
 
         if(filePath != null) {
+            long start, duration;
             this.buildGraph(filePath);
+
+            start = System.nanoTime();
+
             this.graph.recursiveColoration();
+
+            duration = System.nanoTime() - start;
+            System.out.println("Temps : " + String.valueOf(duration / 1000000) + " ms");
             // TODO: Dessiner le graphe dans la vue
 
 //            this.view.display();
@@ -134,6 +141,7 @@ public class GraphBuilder {
      */
     public void unregisterView(GraphView view) {
         view.close();
+        this.view = null;
         System.exit(0);
     }
 
