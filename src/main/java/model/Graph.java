@@ -100,15 +100,14 @@ public class Graph {
      * Find and set a color to the given vertex
      * May change other vertex color
      * Temps : O(n)
-     * Mémoire : 5 + 1 + 3*12 + 5n
-     * 5+1+11+5n+5n
+     * Mémoire : 5 + 1 + 3*12 + 2 * 5n = O(n)
      * @param vertex Vertex for which find and set a color
      */
     public void setColorToVertex(Vertex vertex) {
         ArrayList<Integer> nei; // Mémoire : 5
         Vertex v; // Mémoire : 1
         // Trouver la couleur la plus prioritaire
-        Vertex.Color color = this.getPossibleColor(vertex); // Mémoire : 11
+        Vertex.Color color = this.getPossibleColor(vertex); // Mémoire : 12
         // L'affecter au sommet
         if (Vertex.Color.NONE != color) {
             vertex.setColor(color);
@@ -118,11 +117,11 @@ public class Graph {
             nei = this.getConnectedNeighbors(vertex);
             v = this.vertices.get(nei.get(0));
             this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(2)).getColor()); // Mémoire : 5n
-            color = this.getPossibleColor(vertex); // Mémoire : 11
+            color = this.getPossibleColor(vertex); // Mémoire : 12
             if(color == Vertex.Color.NONE) {
                 v = this.vertices.get(nei.get(1));
                 this.permuteColors(v, v.getColor(), this.vertices.get(nei.get(3)).getColor()); // Mémoire : 5n
-                vertex.setColor(this.getPossibleColor(vertex)); // Mémoire : 11
+                vertex.setColor(this.getPossibleColor(vertex)); // Mémoire : 12
             }
             else {
                 vertex.setColor(color);
@@ -132,7 +131,7 @@ public class Graph {
 
     /**
      * Permute two colors recursively into all the connected component
-     * Temps : O(nbVoisins <= 5) * O(permutation) = O(n)
+     * Temps : O(nbVoisins <= 5) * O(n) = O(n)
      * Mémoire : 5n
      * @param vertex Vertex in which replace the color 1 by the color 2
      * @param c1 Current color to remember for the recursion
@@ -143,7 +142,7 @@ public class Graph {
         vertex.setColor(c2);
         for(Vertex v : nei) {
             if (v.getColor() == c2) {
-                permuteColors(v, c2, c1); // Mémoire : n
+                permuteColors(v, c2, c1); // Au pire n appels
             }
         }
     }
@@ -195,7 +194,7 @@ public class Graph {
     public Vertex.Color getPossibleColor(Vertex vertex) {
         ArrayList<Integer> nei = this.getConnectedNeighbors(vertex); // Mémoire : 5
         boolean colorsUsed[] = {false, false, false, false, false, false}; // Mémoire : 6
-        Vertex.Color color;
+        Vertex.Color color; // Mémoire : 1
 
         // Pour tous les voisins du sommet donné
         for (Integer i : nei) {
@@ -250,6 +249,7 @@ public class Graph {
 
     /**
      * Verify if the current graph is correctly colored
+     * Temps : O(n²) (si chaque sommet a comme voisins tous les autres sommets du graphe)
      * @return Return true if current graph is correctly colored else false
      */
     public boolean isCorrectlyColored() {
@@ -280,9 +280,8 @@ public class Graph {
 
     /**
      * Temps : n * (n + n) = O(n²)
-     * Mémoire : n*(n+1+5+1+11+5n+5n)
-     * = n*(11n+15)
-     * = 11n² + 18n
+     * Mémoire : n * (n + 1 + O(n))
+     *          = n * O(n) = O(n²)
      */
     public void recursiveColoration() {
         Collection<Vertex> vertices = this.vertices.values(); // Mémoire : n
@@ -297,9 +296,9 @@ public class Graph {
 
         if(vertex != null) {
             vertex.disconnectVertex();
-            this.recursiveColoration(); // Mémoire : n
+            this.recursiveColoration(); // n appels
             vertex.reconnectVertex();
-            this.setColorToVertex(vertex); // Mémoire : 5+1+11+5n+5n
+            this.setColorToVertex(vertex); // Mémoire : O(n)
         }
     }
 
